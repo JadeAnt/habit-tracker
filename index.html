@@ -480,8 +480,10 @@
     if(monthLabelsEl) monthLabelsEl.innerHTML = '';
     const today = startOfToday();
     const endDate = new Date(today);
-    const startDate = new Date(endDate.getTime() - (numWeeks*7 - 1) * dayMs);
-    startDate.setTime(startDate.getTime() - startDate.getDay()*dayMs);
+    // Align the last column to the Sunday of the current week, then step back
+    // (numWeeks-1) more full weeks — guarantees the grid always ends on today's week.
+    const currentWeekStart = new Date(endDate.getTime() - endDate.getDay()*dayMs);
+    const startDate = new Date(currentWeekStart.getTime() - (numWeeks-1)*7*dayMs);
 
     let lastMonth = -1;
     let cursor = new Date(startDate);
